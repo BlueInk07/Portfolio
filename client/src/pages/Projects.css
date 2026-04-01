@@ -1,0 +1,31 @@
+.projects-container {
+  min-height: 100vh;
+  padding: 40px 10%; 
+  /* Make sure container is relative so the absolute Silk background stays contained */
+  position: relative; 
+  background: transparent; 
+}
+
+/* REPLACE the existing .projects-title block with this */
+.projects-title {
+  font-family: "Times New Roman", serif;
+  font-size: 5rem;
+  font-weight: 300;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  width: fit-content;
+  color: #a8c0ff; /* fallback if clip fails — shows blue not white */
+
+  background: linear-gradient(90deg, #ffffff 0%, #a8c0ff 35%, #3b6cff 65%, #0033cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+@media (max-width: 768px) {
+  .projects-title {
+    font-size: 3rem;
+  }
+}

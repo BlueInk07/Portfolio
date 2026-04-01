@@ -1,0 +1,468 @@
+/* ─── UIUX.css ─────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap');
+
+/* ════════════════════════════════════════
+   TOKENS
+   ════════════════════════════════════════ */
+:root {
+  --grid-color: rgba(50, 100, 255, 0.4);
+  --grid-size: 50px;
+  --horizon-line: 75vh;
+
+  /* cards */
+  --card-gap: 14px;
+  --card-collapsed-w: 85px;
+  --card-expanded-w: 420px;
+  --card-h: 420px;
+  --trans: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ════════════════════════════════════════
+   BASE — exactly from the HTML
+   ════════════════════════════════════════ */
+.uiux-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Top fade — bridges Projects→UIUX */
+.uiux-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 11, 26, 1) 0%,
+    rgba(3, 11, 26, 0) 100%
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Bottom fade — bridges UIUX→TechStack */
+.uiux-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 8, 20, 0) 0%,
+    rgba(2, 8, 20, 0.7) 60%,
+    rgba(2, 8, 20, 1) 100%
+  );
+  z-index: 8;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════
+   BACK WALL — vertical lines falling down
+   ════════════════════════════════════════ */
+.uiux-wall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--horizon-line);
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  background-position: center 0px;
+  animation: flowDown 2s linear infinite;
+}
+
+@keyframes flowDown {
+  from { background-position: center 0px; }
+  to   { background-position: center var(--grid-size); }
+}
+
+/* ════════════════════════════════════════
+   FLOOR CONTAINER — perspective wrapper
+   ════════════════════════════════════════ */
+.uiux-floor-container {
+  position: absolute;
+  top: var(--horizon-line);
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - var(--horizon-line));
+  perspective: 600px;
+  perspective-origin: 50% 0%;
+  overflow: hidden;
+}
+
+/* FLOOR — rotated plane scrolling toward viewer */
+.uiux-floor {
+  position: absolute;
+  top: 0;
+  left: -50vw;
+  width: 200vw;
+  height: 200vh;
+  transform-origin: top center;
+  transform: rotateX(75deg);
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  background-position: center 0px;
+  animation: flowForward 2s linear infinite;
+}
+
+@keyframes flowForward {
+  from { background-position: center 0px; }
+  to   { background-position: center var(--grid-size); }
+}
+
+/* ════════════════════════════════════════
+   SPOTLIGHT — blue glow at horizon
+   ════════════════════════════════════════ */
+.uiux-spotlight {
+  position: absolute;
+  top: calc(var(--horizon-line) - 150px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70vw;
+  height: 300px;
+  background: radial-gradient(ellipse at center,
+    rgba(30, 70, 255, 0.6) 0%,
+    rgba(0, 0, 0, 0) 60%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ════════════════════════════════════════
+   VIGNETTE — darkens edges exactly as in HTML
+   ════════════════════════════════════════ */
+.uiux-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 60%,
+    transparent 30%,
+    rgba(2, 4, 12, 0.92) 90%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ════════════════════════════════════════
+   TYPOGRAPHY — exact port from HTML
+   ════════════════════════════════════════ */
+.uiux-typography {
+  position: absolute;
+  top: 50px;
+  left: 80px;
+  z-index: 10;
+  font-family: "Italiana", "Didot", "Bodoni MT", "Times New Roman", serif;
+}
+
+.uiux-title {
+  font-size: 5.5rem;
+  margin: 0;
+  letter-spacing: -2px;
+  font-weight: normal;
+  background: linear-gradient(180deg, #ffffff 20%, #6e98ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.uiux-middle-row {
+  display: flex;
+  align-items: center;
+  margin-top: -15px;
+  margin-left: 80px;
+  width: 300px;
+}
+
+.uiux-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #888;
+}
+
+.uiux-amp {
+  color: #fff;
+  font-size: 2.5rem;
+  font-style: italic;
+  margin: 0 15px;
+  font-family: "Italiana", serif;
+}
+
+.uiux-subtitle {
+  font-size: 2.5rem;
+  color: #6e98ff;
+  margin-top: -5px;
+  margin-left: 200px;
+  font-weight: normal;
+  font-family: "Italiana", "Didot", "Bodoni MT", "Times New Roman", serif;
+}
+
+/* ════════════════════════════════════════
+   ACCORDION CARD GALLERY — centred on page
+   positioned in lower half, above floor
+   ════════════════════════════════════════ */
+.uiux-gallery {
+  position: absolute;
+  /* sit just above the floor — centred vertically in the lower portion */
+  bottom: calc(100vh - var(--horizon-line) - 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--card-gap);
+  height: var(--card-h);
+  width: 88vw;
+  max-width: 1100px;
+  z-index: 10;
+}
+
+.uiux-card-item {
+  position: relative;
+  flex: 0 0 var(--card-collapsed-w);
+  height: 100%;
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    flex var(--trans),
+    border-radius var(--trans),
+    box-shadow var(--trans);
+  box-shadow:
+    0 6px 24px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(58,123,255,0.18);
+}
+
+.uiux-card-item.active {
+  flex: 0 0 var(--card-expanded-w);
+  border-radius: 22px;
+  box-shadow:
+    0 16px 50px rgba(0,0,0,0.85),
+    0 0 0 1.5px rgba(80,150,255,0.5),
+    0 0 40px rgba(58,123,255,0.25);
+}
+
+.uiux-card-item img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--trans);
+  display: block;
+}
+
+.uiux-card-item.active img { transform: scale(1.05); }
+
+.uiux-card-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,4,18,0.52);
+  transition: opacity var(--trans);
+  z-index: 1;
+}
+.uiux-card-item.active .uiux-card-scrim { opacity: 0; }
+
+.uiux-card-vtitle {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  white-space: nowrap;
+  font-family: 'Italiana', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+.uiux-card-item.active .uiux-card-vtitle { opacity: 0; }
+
+.uiux-card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 2.5rem 2rem 2rem;
+  background: linear-gradient(to top, rgba(0,4,20,0.9) 0%, transparent 100%);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
+  pointer-events: none;
+  z-index: 3;
+}
+.uiux-card-item.active .uiux-card-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+.uiux-card-info h3 {
+  font-family: 'Italiana', serif;
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 0.3rem;
+  letter-spacing: 0.08em;
+}
+.uiux-card-info p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  color: rgba(200,220,255,0.7);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ════════════════════════════════════════
+   DESKTOP LABEL — from HTML
+   ════════════════════════════════════════ */
+.uiux-desktop-label {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #555;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  z-index: 10;
+}
+
+/* ── responsive ── */
+@media (max-height: 750px) {
+  :root { --card-h: 320px; --horizon-line: 70vh; }
+  .uiux-title { font-size: 4rem; }
+}
+@media (max-width: 900px) {
+  :root {
+    --card-collapsed-w: 60px;
+    --card-expanded-w: 280px;
+    --card-h: 340px;
+  }
+  .uiux-typography { left: 40px; }
+  .uiux-title { font-size: 4rem; }
+  .uiux-gallery { width: 96vw; }
+}
+@media (max-width: 600px) {
+  :root {
+    --card-collapsed-w: 48px;
+    --card-expanded-w: 220px;
+    --card-h: 280px;
+  }
+  .uiux-typography { left: 20px; }
+  .uiux-title { font-size: 3rem; }
+  .uiux-middle-row { margin-left: 40px; }
+  .uiux-subtitle { margin-left: 80px; }
+}
+
+/* ════════════════════════════════════════
+   EXPAND BUTTON — bottom right of active card
+   ════════════════════════════════════════ */
+.uiux-expand-btn {
+  position: absolute;
+  bottom: 1.2rem;
+  right: 1rem;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(10, 20, 50, 0.75);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.uiux-expand-btn:hover {
+  background: rgba(40, 80, 220, 0.75);
+  border-color: rgba(100, 160, 255, 0.7);
+  transform: scale(1.12);
+}
+
+/* ════════════════════════════════════════
+   POSTER MODAL
+   ════════════════════════════════════════ */
+.uiux-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modalFadeIn 0.25s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.uiux-modal-box {
+  position: relative;
+  max-width: 55vw;
+  max-height: 85vh;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(80, 140, 255, 0.3),
+    0 0 40px rgba(40, 80, 255, 0.2);
+  animation: modalSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(30px) scale(0.95); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+
+.uiux-modal-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  background: #03040a;
+}
+
+/* close ✕ button */
+.uiux-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(10, 20, 50, 0.85);
+  color: #fff;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  backdrop-filter: blur(4px);
+}
+
+.uiux-modal-close:hover {
+  background: rgba(180, 30, 30, 0.8);
+  transform: scale(1.1);
+}

@@ -1,0 +1,468 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;600&family=Share+Tech+Mono&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.ts-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 800px;
+  background: transparent;
+  overflow: hidden;
+  font-family: 'Teko', sans-serif;
+  cursor: default;
+}
+
+/* Top fade — seamless from UIUX */
+.ts-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 30vh;
+  background: linear-gradient(to bottom, rgba(2,8,20,1) 0%, rgba(2,8,20,0) 100%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* Bottom fade — into AboutMe */
+.ts-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 30vh;
+  background: linear-gradient(to bottom, rgba(1,7,16,0) 0%, rgba(1,7,16,1) 100%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+.ts-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.ts-header-box { position: absolute; top: 40px; left: 50px; z-index: 20; display: flex; flex-direction: column; }
+.ts-header-top { display: flex; align-items: center; gap: 12px; }
+.ts-tech-word { font-size: 5.5rem; font-weight: 600; line-height: 0.8; display: flex; letter-spacing: 1px; }
+.ts-barcode { display: flex; height: 55px; align-items: stretch; gap: 3px; padding-bottom: 2px; }
+.ts-bar { background: white; border-radius: 1px; }
+.ts-header-bottom { display: flex; align-items: center; gap: 15px; margin-top: 5px; }
+.ts-colored-blocks { display: flex; gap: 6px; padding-left: 2px; }
+.ts-c-block { height: 14px; border-radius: 4px; }
+.ts-c-block.dark { width: 35px; background: #022070; }
+.ts-c-block.mid { width: 30px; background: #0040ff; }
+.ts-c-block.light { width: 25px; background: #4d88dd; }
+.ts-stack-word { font-family: 'Share Tech Mono', monospace; color: white; font-size: 2.2rem; letter-spacing: .5em; padding-left: 10px; }
+
+
+/* ════════════════════════════════════
+   3D ENVELOPE / FOLDER STACK
+════════════════════════════════════ */
+
+.env-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 180px;
+}
+
+.env-wrapper {
+  position: relative;
+  width: 420px;
+  height: 280px;
+  cursor: pointer;
+  z-index: 10;
+  animation: env-float 6s ease-in-out infinite;
+}
+
+@keyframes env-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.env-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0033a6, #00114a);
+  border-radius: 15px 15px 25px 25px;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.6), 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.env-cards {
+  position: absolute;
+  bottom: 25px;
+  left: 20px;
+  right: 20px;
+  height: 240px;
+  z-index: 10;
+}
+
+.env-card {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px 16px 12px 12px;
+  background: rgba(12, 16, 26, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(100, 180, 255, 0.15);
+  box-shadow: 0 -8px 25px rgba(0,0,0,0.4);
+  color: #ffffff;
+  transition: all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom center;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  cursor: pointer;
+}
+
+/* Hover glow ring on individual card hover (when open) */
+.env-wrapper.open .env-card:hover {
+  border-color: rgba(100, 180, 255, 0.45);
+  box-shadow: 0 0 18px rgba(50, 130, 255, 0.35), 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Layering logic */
+.env-card-0 { z-index: 5; }
+.env-card-1 { z-index: 4; }
+.env-card-2 { z-index: 3; }
+.env-card-3 { z-index: 2; }
+.env-card-4 { z-index: 1; }
+
+/* Closed / Tucked State */
+.env-card {
+  transform: translateY(0) scale(0.9);
+  opacity: 0.6;
+}
+
+/* Hover Peak (When closed) */
+.env-wrapper:hover:not(.open) .env-card-0 { transform: translateY(-45px) scale(0.95); opacity: 0.95; }
+.env-wrapper:hover:not(.open) .env-card-1 { transform: translateY(-35px) scale(0.93); opacity: 0.85; }
+.env-wrapper:hover:not(.open) .env-card-2 { transform: translateY(-25px) scale(0.91); opacity: 0.75; }
+.env-wrapper:hover:not(.open) .env-card-3 { transform: translateY(-15px) scale(0.89); opacity: 0.65; }
+.env-wrapper:hover:not(.open) .env-card-4 { transform: translateY(-5px)  scale(0.87); opacity: 0.55; }
+
+/* Open State - Fanned-Out Sunrise Arc */
+.env-wrapper.open .env-card-0 { transform: translateY(-140px) translateX(-130px) rotate(-40deg) scale(1.02); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.env-wrapper.open .env-card-1 { transform: translateY(-230px) translateX(-70px) rotate(-20deg) scale(1.02); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.env-wrapper.open .env-card-2 { transform: translateY(-270px) translateX(0px) rotate(0deg) scale(1.02); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.env-wrapper.open .env-card-3 { transform: translateY(-230px) translateX(70px) rotate(20deg) scale(1.02); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.env-wrapper.open .env-card-4 { transform: translateY(-140px) translateX(130px) rotate(40deg) scale(1.02); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+/* Front flap */
+.env-front {
+  position: absolute;
+  inset: -2px -2px -2px -2px;
+  background: linear-gradient(155deg, #2061ff, #022070 55%, #000c30);
+  clip-path: polygon(0 42%, 50% 72%, 100% 42%, 100% 100%, 0 100%);
+  border-radius: 0 0 25px 25px;
+  z-index: 20;
+  box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
+  border-top: 1px solid rgba(100,180,255,0.2);
+}
+
+.env-pocket-shadow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, transparent 60%);
+  z-index: 15;
+  pointer-events: none;
+  clip-path: polygon(0 42%, 50% 72%, 100% 42%, 100% 100%, 0 100%);
+}
+
+.env-click-hint {
+  position: absolute;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 30;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.env-wrapper:hover .env-click-hint { color: rgba(255,255,255,0.8); }
+
+/* ── Card inner content ─────────────────────────────────── */
+
+.env-card-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  /* Default: top-left — no extra styles needed */
+}
+
+/* Bottom-right variant for Database & Backend */
+.env-card-label.label-bottom-right {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+  margin-bottom: 0;
+  font-size: 1rem;
+  opacity: 0.7;
+  color: rgba(140, 200, 255, 0.85);
+  letter-spacing: 2px;
+}
+
+.env-card-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.env-tech-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.env-tech-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+
+.env-tech-icon:hover { transform: translateY(-4px) scale(1.1); }
+
+.env-tech-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.env-tech-name {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+
+/* ════════════════════════════════════
+   POPUP MODAL
+════════════════════════════════════ */
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 5, 20, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: overlay-in 0.22s ease;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.popup-card {
+  position: relative;
+  min-width: 340px;
+  max-width: 480px;
+  width: 90vw;
+  background: rgba(10, 16, 35, 0.90);
+  border: 1px solid rgba(100, 180, 255, 0.25);
+  border-radius: 20px;
+  padding: 36px 36px 32px;
+  box-shadow:
+    0 0 0 1px rgba(50, 120, 255, 0.08),
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(20, 80, 255, 0.12);
+  animation: card-pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+@keyframes card-pop {
+  from { opacity: 0; transform: scale(0.82) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Decorative corner accents */
+.popup-corner-tl {
+  position: absolute;
+  top: 0; left: 0;
+  width: 60px; height: 60px;
+  border-top: 2px solid rgba(80, 160, 255, 0.4);
+  border-left: 2px solid rgba(80, 160, 255, 0.4);
+  border-radius: 20px 0 0 0;
+  pointer-events: none;
+}
+.popup-corner-br {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 60px; height: 60px;
+  border-bottom: 2px solid rgba(80, 160, 255, 0.4);
+  border-right: 2px solid rgba(80, 160, 255, 0.4);
+  border-radius: 0 0 20px 0;
+  pointer-events: none;
+}
+
+.popup-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.55);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  line-height: 1;
+}
+.popup-close:hover {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.popup-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.popup-hash {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.8rem;
+  color: rgba(80, 160, 255, 0.7);
+  line-height: 1;
+}
+
+.popup-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.popup-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(80,160,255,0.35) 0%, rgba(80,160,255,0.05) 100%);
+  margin-bottom: 28px;
+}
+
+.popup-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.popup-tech-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-tech-icon {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(100, 180, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.popup-tech-icon:hover {
+  transform: translateY(-5px) scale(1.08);
+  box-shadow: 0 12px 28px rgba(30, 100, 255, 0.25);
+  border-color: rgba(100, 180, 255, 0.4);
+}
+.popup-tech-icon img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.popup-tech-name {
+  font-family: 'Teko', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 1.5px;
+  color: #c8deff;
+}
+
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 649px) {
+  .ts-header-box { top: 12px; left: 12px; }
+  .ts-tech-word { font-size: 2.2rem; }
+  .ts-barcode { height: 24px; }
+  .ts-stack-word { font-size: 1rem; letter-spacing: .3em; }
+  .env-scene { padding-top: 100px; }
+  .env-wrapper { width: 320px; height: 210px; }
+  .env-cards { height: 180px; }
+
+  .env-wrapper.open .env-card-0 { transform: translateY(-100px) translateX(-80px) rotate(-35deg) scale(0.9); }
+  .env-wrapper.open .env-card-1 { transform: translateY(-170px) translateX(-40px) rotate(-18deg) scale(0.9); }
+  .env-wrapper.open .env-card-2 { transform: translateY(-200px) translateX(0px) rotate(0deg) scale(0.9); }
+  .env-wrapper.open .env-card-3 { transform: translateY(-170px) translateX(40px) rotate(18deg) scale(0.9); }
+  .env-wrapper.open .env-card-4 { transform: translateY(-100px) translateX(80px) rotate(35deg) scale(0.9); }
+
+  .popup-card { padding: 28px 22px 24px; }
+  .popup-title { font-size: 2rem; }
+  .popup-tech-icon { width: 56px; height: 56px; }
+  .popup-tech-icon img { width: 30px; height: 30px; }
+}
+.project-link-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.25s ease;
+}
+
+.project-link-btn:hover {
+  background: rgba(100,180,255,0.25);
+  transform: scale(1.15);
+}

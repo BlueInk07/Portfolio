@@ -1,0 +1,13 @@
+node_modules
+client/node_modules
+server/node_modules
+
+venv
+__pycache__
+
+.env
+
+dist
+build
+
+*.log
